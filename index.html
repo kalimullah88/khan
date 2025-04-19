@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetPro - Sports Betting & Live Scores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+            color: #333;
+        }
+        header {
+            background: #1a2a3a;
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .logo i {
+            margin-right: 10px;
+            color: #ffcc00;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: #ffcc00;
+        }
+        .btn {
+            background: #ffcc00;
+            color: #1a2a3a;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background: #e6b800;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #1a2a3a;
+            color: white;
+            border: 1px solid #ffcc00;
+        }
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section {
+            padding: 50px 0;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #1a2a3a;
+        }
+        .section-title i {
+            color: #ffcc00;
+            margin-right: 10px;
+        }
+        .live-scores {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .match {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 10px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+        .match:hover {
+            background: #f9f9f9;
+        }
+        .match:last-child {
+            border-bottom: none;
+        }
+        .match-teams {
+            font-weight: bold;
+            flex: 1;
+        }
+        .match-time {
+            color: #666;
+            margin-right: 20px;
+            width: 80px;
+            text-align: center;
+        }
+        .match-score {
+            background: #1a2a3a;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            min-width: 70px;
+            text-align: center;
+        }
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .payment-method {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .payment-method:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .payment-method img {
+            width: 40px;
+            height: 25px;
+            object-fit: contain;
+            margin-right: 15px;
+        }
+        .payment-method .payment-name {
+            font-weight: bold;
+        }
+        .payment-method .payment-fee {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+        .deposit-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        footer {
+            background: #1a2a3a;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .footer-column h3 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        .footer-column ul {
+            list-style: none;
+        }
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer-column ul li a:hover {
+            color: #ffcc00;
+            padding-left: 5px;
+        }
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2a3a4a;
+            color: #aaa;
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .payment-methods {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-coins"></i>
+                    <span>BetPro</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#">Live Betting</a>
+                    <a href="#">Sports</a>
+                    <a href="#">Promotions</a>
+                    <a href="#" class="btn">Login / Register</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Bet on Your Favorite Sports</h1>
+            <p>Get 200% welcome bonus on your first deposit! Live betting, instant withdrawals, and 24/7 customer support.</p>
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <a href="#deposit" class="btn">Deposit Now</a>
+                <a href="#live" class="btn btn-secondary">Live Scores</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="live">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-fire"></i> Live Matches
+            </h2>
+            <div class="live-scores">
+                <div class="match">
+                    <div class="match-teams">Manchester United vs Liverpool</div>
+                    <div class="match-time">75'</div>
+                    <div class="match-score">2 - 1</div>
+                </div>
+                <div class="match">
+                    <div class="match-teams">Barcelona vs Real Madrid</div>
+                    <div class="match-time">HT</div>
+                    <div class="match-score">1 - 1</div>
+                </div>
+                <div class="match">
+                    <div class="match-teams">PSG vs Bayern Munich</div>
+                    <div class="match-time">32'</div>
+                    <div class="match-score">0 - 2</div>
+                </div>
+                <div class="match">
+                    <div class="match-teams">Bangladesh vs India (Cricket)</div>
+                    <div class="match-time">35.4 ov</div>
+                    <div class="match-score">182/4</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="deposit">
+        <div class="container">
+            <h2 class="section-title">
+                <i class="fas fa-wallet"></i> Deposit Money
+            </h2>
+            
+            <div class="deposit-form">
+                <div class="form-group">
+                    <label for="amount">Amount (BDT/USD)</label>
+                    <input type="number" id="amount" placeholder="Enter amount">
+                </div>
+                
+                <div class="form-group">
+                    <label for="method">Payment Method</label>
+                    <select id="method">
+                        <option value="">Select payment method</option>
+                        <optgroup label="Bangladesh">
+                            <option value="bkash">bKash</option>
+                            <option value="nagad">Nagad</option>
+                            <option value="rocket">Rocket (DBBL)</option>
+                        </optgroup>
+                        <optgroup label="International">
+                            <option value="paypal">PayPal</option>
+                            <option value="card">Credit/Debit Card</option>
+                            <option value="skrill">Skrill</option>
+                            <option value="stripe">Stripe</option>
+                            <option value="crypto">Cryptocurrency</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div id="bkash-details" class="method-details" style="display: none;">
+                    <div class="form-group">
+                        <label for="bkash-number">bKash Number</label>
+                        <input type="text" id="bkash-number" placeholder="01XXXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="bkash-trx">bKash Transaction ID</label>
+                        <input type="text" id="bkash-trx" placeholder="TRXID">
+                    </div>
+                    <p style="font-size: 12px; color: #666; margin-top: -10px; margin-bottom: 15px;">
+                        Send money to our bKash Merchant: 017XXXXXXXX
+                    </p>
+                </div>
+                
+                <div id="card-details" class="method-details" style="display: none;">
+                    <div class="form-group">
+                        <label for="card-number">Card Number</label>
+                        <input type="text" id="card-number" placeholder="4242 4242 4242 4242">
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="card-expiry">Expiry Date</label>
+                            <input type="text" id="card-expiry" placeholder="MM/YY">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="card-cvc">CVC</label>
+                            <input type="text" id="card-cvc" placeholder="123">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button class="btn" style="padding: 12px 30px; font-size: 16px;">
+                        Deposit Now
+                    </button>
+                </div>
+            </div>
+            
+            <h3 style="text-align: center; margin: 40px 0 20px; color: #1a2a3a;">
+                Supported Payment Methods
+            </h3>
+            
+            <div class="payment-methods">
+                <div class="payment-method">
+                    <img src="https://seeklogo.com/images/B/bkash-logo-C6D4C27FEB-seeklogo.com.png" alt="bKash">
+                    <div>
+                        <div class="payment-name">bKash</div>
+                        <div class="payment-fee">Fee: 1.5%</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <img src="https://seeklogo.com/images/N/nagad-logo-9D78E1CC32-seeklogo.com.png" alt="Nagad">
+                    <div>
+                        <div class="payment-name">Nagad</div>
+                        <div class="payment-fee">Fee: 1.5%</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <img src="https://seeklogo.com/images/D/dutch-bangla-rocket-logo-7E5D9EEA8E-seeklogo.com.png" alt="Rocket">
+                    <div>
+                        <div class="payment-name">Rocket</div>
+                        <div class="payment-fee">Fee: 1.5%</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <img src="https://seeklogo.com/images/P/paypal-logo-67D6F6A8D4-seeklogo.com.png" alt="PayPal">
+                    <div>
+                        <div class="payment-name">PayPal</div>
+                        <div class="payment-fee">Fee: 2.9%</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <img src="https://seeklogo.com/images/V/visa-logo-6F4057663D-seeklogo.com.png" alt="Visa">
+                    <div>
+                        <div class="payment-name">Credit Card</div>
+                        <div class="payment-fee">Visa/Mastercard</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <img src="https://seeklogo.com/images/S/skrill-logo-8D5C5A1C78-seeklogo.com.png" alt="Skrill">
+                    <div>
+                        <div class="payment-name">Skrill</div>
+                        <div class="payment-fee">Fee: 2.5%</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <img src="https://seeklogo.com/images/S/stripe-logo-285E53D67E-seeklogo.com.png" alt="Stripe">
+                    <div>
+                        <div class="payment-name">Stripe</div>
+                        <div class="payment-fee">Fee: 2.9% + $0.30</div>
+                    </div>
+                </div>
+                <div class="payment-method">
+                    <img src="https://seeklogo.com/images/B/bitcoin-logo-DDAEEA68FA-seeklogo.com.png" alt="Crypto">
+                    <div>
+                        <div class="payment-name">Cryptocurrency</div>
+                        <div class="payment-fee">BTC/ETH/USDT</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>BetPro</h3>
+                    <p style="color: #ddd; line-height: 1.6;">
+                        The leading sports betting platform in Bangladesh with fastest withdrawals and best odds.
+                    </p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Live Betting</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">Promotions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Payment Methods</h3>
+                    <ul>
+                        <li><a href="#">bKash</a></li>
+                        <li><a href="#">Nagad</a></li>
+                        <li><a href="#">Rocket</a></li>
+                        <li><a href="#">PayPal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 BetPro. All rights reserved. | 18+ Only. Gambling can be addictive. Play responsibly.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Live score update simulation
+        function updateScores() {
+            const matches = [
+                { teams: "Manchester United vs Liverpool", time: "82'", score: "2 - 1" },
+                { teams: "Barcelona vs Real Madrid", time: "HT", score: "1 - 1" },
+                { teams: "PSG vs Bayern Munich", time: "40'", score: "0 - 2" },
+                { teams: "Bangladesh vs India (Cricket)", time: "42.3 ov", score: "210/5" }
+            ];
+            
+            const matchElements = document.querySelectorAll('.match');
+            
+            matchElements.forEach((matchEl, index) => {
+                const match = matches[index];
+                const scoreEl = matchEl.querySelector('.match-score');
+                const timeEl = matchEl.querySelector('.match-time');
+                
+                // Randomly update some matches
+                if (Math.random() > 0.7) {
+                    const scoreParts = match.score.split(' - ');
+                    if (Math.random() > 0.5) {
+                        scoreParts[0] = parseInt(scoreParts[0]) + 1;
+                    } else {
+                        scoreParts[1] = parseInt(scoreParts[1]) + 1;
+                    }
+                    match.score = scoreParts.join(' - ');
+                    
+                    // Update time
+                    if (match.time.includes("'")) {
+                        const minutes = parseInt(match.time.replace("'", ""));
+                        match.time = (minutes + 1) + "'";
+                    } else if (match.time.includes("ov")) {
+                        const overs = parseFloat(match.time.replace(" ov", ""));
+                        match.time = (overs + 0.1).toFixed(1) + " ov";
+                    }
+                }
+                
+                scoreEl.textContent = match.score;
+                timeEl.textContent = match.time;
+            });
+        }
+        
+        setInterval(updateScores, 10000); // Update every 10 seconds
+        
+        // Show/hide payment method details
+        document.getElementById('method').addEventListener('change', function() {
+            // Hide all method details first
+            document.querySelectorAll('.method-details').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Show selected method details
+            const selectedMethod = this.value;
+            if (selectedMethod === 'bkash' || selectedMethod === 'nagad' || selectedMethod === 'rocket') {
+                document.getElementById('bkash-details').style.display = 'block';
+            } else if (selectedMethod === 'card') {
+                document.getElementById('card-details').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
